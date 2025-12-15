@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ethical Finite Machines, Inc.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Ethical Finite Machines, Inc. builds hardware-accelerated ethics engines for real-time autonomous systems, grounded in democratically governed frameworks like DEME."
+  />
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --bg: #050505;
+      --bg-elevated: #111111;
+      --fg: #fdfbf5;
+      --fg-muted: #b8b0a0;
+      --gold: #cda85a;
+      --gold-soft: rgba(205, 168, 90, 0.14);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.7);
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+      --max-width: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #252018 0, #050505 55%, #000000 100%);
+      color: var(--fg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 1.25rem 1.25rem 4rem;
+    }
+
+    /* NAVBAR */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(24px);
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.92),
+        rgba(0, 0, 0, 0.88),
+        transparent
+      );
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .nav-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0.8rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .logo-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3px;
+      box-shadow: 0 0 16px rgba(205, 168, 90, 0.6);
+    }
+
+    .logo-img img {
+      width: 100%;
+      height: auto;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-title {
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      font-size: 0.96rem;
+    }
+
+    .logo-sub {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--fg-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.25rem;
+      align-items: center;
+      font-size: 0.86rem;
+    }
+
+    .nav-links a {
+      color: var(--fg-muted);
+      position: relative;
+      padding-bottom: 0.15rem;
+      transition: color 0.18s ease;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -0.05rem;
+      width: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--gold);
+      transition: width 0.18s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--fg);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(205, 168, 90, 0.8);
+      background: radial-gradient(circle at top left, rgba(205, 168, 90, 0.22), transparent 70%);
+      font-size: 0.8rem;
+      color: var(--fg);
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.9);
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255, 219, 135, 0.9);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.9);
+    }
+
+    /* HERO */
+    .hero {
+      margin-top: 2.7rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 2.9rem;
+      align-items: center;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.33rem;
+      padding: 0.15rem 0.7rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(205, 168, 90, 0.6);
+      background: rgba(0, 0, 0, 0.8);
+      font-size: 0.72rem;
+      color: var(--fg-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 0.9rem;
+    }
+
+    .hero-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--gold);
+      box-shadow: 0 0 8px rgba(205, 168, 90, 0.9);
+    }
+
+    .hero-title {
+      font-size: clamp(2.3rem, 3.3vw + 1rem, 3.4rem);
+      line-height: 1.08;
+      font-weight: 650;
+      margin-bottom: 0.7rem;
+    }
+
+    .hero-gradient {
+      background: linear-gradient(120deg, #ffffff, #f0e4c2, #e3c177);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.02rem;
+      color: var(--fg-muted);
+      max-width: 32rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .pill {
+      font-size: 0.72rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(7, 7, 7, 0.9);
+      color: var(--fg-muted);
+      white-space: nowrap;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      align-items: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.7rem 1.4rem;
+      border-radius: var(--radius-pill);
+      border: none;
+      background-image: linear-gradient(135deg, #f7d58e, var(--gold));
+      color: #000;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.9);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 1);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.6rem 1.1rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-subtle);
+      background: rgba(10, 10, 10, 0.9);
+      color: var(--fg-muted);
+      font-size: 0.84rem;
+      cursor: pointer;
+      transition: border-color 0.12s ease, background 0.12s ease, color 0.12s ease;
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(255, 255, 255, 0.26);
+      background: rgba(20, 20, 20, 0.95);
+      color: var(--fg);
+    }
+
+    .btn-icon {
+      font-size: 1rem;
+    }
+
+    .hero-aside {
+      border-radius: 24px;
+      background: radial-gradient(circle at top left, rgba(205, 168, 90, 0.3), transparent 60%),
+        #050505;
+      padding: 1.1rem 1.05rem;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-aside::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle at 15% 0, rgba(255, 255, 255, 0.06), transparent 55%);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .hero-aside-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.85);
+      color: var(--fg-muted);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 0.75rem;
+    }
+
+    .chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: radial-gradient(circle at 30% 30%, #f6d38c, var(--gold));
+    }
+
+    .grid-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .grid-sub {
+      font-size: 0.75rem;
+      color: var(--fg-muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .ethics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.5rem;
+      font-size: 0.72rem;
+    }
+
+    .ethics-cell {
+      padding: 0.55rem 0.6rem;
+      border-radius: 14px;
+      background: rgba(5, 5, 5, 0.93);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .ethics-cell-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--fg-muted);
+      margin-bottom: 0.18rem;
+    }
+
+    .ethics-cell-value {
+      font-size: 0.78rem;
+    }
+
+    .ethics-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.8rem;
+      font-size: 0.7rem;
+      color: var(--fg-muted);
+    }
+
+    .badge-soft {
+      padding: 0.12rem 0.6rem;
+      border-radius: var(--radius-pill);
+      background: rgba(0, 0, 0, 0.9);
+      border: 1px solid rgba(205, 168, 90, 0.6);
+      font-size: 0.7rem;
+      color: #f6d38c;
+    }
+
+    /* Sections */
+    section {
+      margin-top: 4rem;
+    }
+
+    .section-heading {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .section-kicker {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.72rem;
+      color: var(--fg-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .section-lead {
+      font-size: 0.98rem;
+      color: var(--fg-muted);
+      max-width: 36rem;
+      margin-bottom: 1.7rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.3rem;
+    }
+
+    .card {
+      border-radius: var(--radius-lg);
+      background: rgba(6, 6, 6, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 1.15rem 1.1rem;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.7);
+    }
+
+    .card-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--fg-muted);
+      margin-bottom: 0.45rem;
+    }
+
+    .card-title {
+      font-size: 0.98rem;
+      font-weight: 560;
+      margin-bottom: 0.35rem;
+    }
+
+    .card-body {
+      font-size: 0.86rem;
+      color: var(--fg-muted);
+      margin-bottom: 0.55rem;
+    }
+
+    .card-meta {
+      font-size: 0.74rem;
+      color: var(--fg-muted);
+    }
+
+    .card-meta strong {
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    /* Use cases / tech split */
+    .usecases {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 1.6rem;
+      align-items: flex-start;
+    }
+
+    .usecase-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .usecase {
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 0.9rem 0.95rem;
+      background: rgba(5, 5, 5, 0.96);
+    }
+
+    .usecase-title {
+      font-size: 0.96rem;
+      font-weight: 560;
+      margin-bottom: 0.2rem;
+    }
+
+    .usecase-body {
+      font-size: 0.86rem;
+      color: var(--fg-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .usecase-tags {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+      font-size: 0.7rem;
+    }
+
+    .usecase-tag {
+      padding: 0.18rem 0.55rem;
+      border-radius: var(--radius-pill);
+      background: rgba(0, 0, 0, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--fg-muted);
+    }
+
+    .usecase-panel {
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 1rem 1.05rem;
+      background: radial-gradient(circle at top left, var(--gold-soft), transparent 60%),
+        rgba(5, 5, 5, 0.98);
+    }
+
+    .usecase-panel-title {
+      font-size: 0.94rem;
+      font-weight: 560;
+      margin-bottom: 0.4rem;
+    }
+
+    .usecase-panel-body {
+      font-size: 0.84rem;
+      color: var(--fg-muted);
+      margin-bottom: 0.7rem;
+    }
+
+    .bullet-list {
+      list-style: none;
+      font-size: 0.8rem;
+      color: var(--fg-muted);
+    }
+
+    .bullet-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.45rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .bullet-dot {
+      margin-top: 0.36rem;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--gold);
+    }
+
+    /* Contact / footer */
+    .contact {
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 1.4rem 1.3rem;
+      background: linear-gradient(135deg, var(--gold-soft), rgba(0, 0, 0, 0.96));
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.2rem;
+      margin-top: 3.4rem;
+    }
+
+    .contact-text {
+      max-width: 32rem;
+    }
+
+    .contact-title {
+      font-size: 1.1rem;
+      font-weight: 580;
+      margin-bottom: 0.3rem;
+    }
+
+    .contact-body {
+      font-size: 0.9rem;
+      color: var(--fg-muted);
+    }
+
+    .contact-cta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+    }
+
+    .contact-email {
+      padding: 0.55rem 0.9rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(5, 5, 5, 0.96);
+      font-family: "Inter", sans-serif;
+      font-size: 0.8rem;
+      color: var(--gold);
+    }
+
+    .footer {
+      padding: 1.4rem 1.25rem 1.6rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      margin-top: auto;
+      font-size: 0.74rem;
+      color: var(--fg-muted);
+      background: #000;
+    }
+
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .footer-links a {
+      color: var(--fg-muted);
+    }
+
+    .footer-links a:hover {
+      color: var(--fg);
+    }
+
+    /* Responsive */
+    @media (max-width: 880px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-aside {
+        order: -1;
+      }
+
+      .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .usecases {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-inner {
+        padding-inline: 1rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        margin-top: 2rem;
+      }
+
+      .cards {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .contact {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- NAVBAR -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a href="#top" class="logo">
+          <div class="logo-img">
+            <!-- update src to your actual file name if needed -->
+            <img src="logo.png" alt="Ethical Finite Machines logo" />
+          </div>
+          <div class="logo-text">
+            <span class="logo-title">Ethical Finite Machines, Inc.</span>
+            <span class="logo-sub">Ethics in real time</span>
+          </div>
+        </a>
+        <nav class="nav-links">
+          <a href="#concept">Concept</a>
+          <a href="#technology">Technology</a>
+          <a href="#use-cases">Use cases</a>
+          <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">
+            <span>Talk to us</span>
+            <span>↗</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="shell" id="top">
+      <!-- HERO -->
+      <section class="hero">
+        <div>
+          <div class="hero-tag">
+            <span class="hero-dot"></span>
+            <span>Democratically governed ethics for machines</span>
+          </div>
+          <h1 class="hero-title">
+            <span class="hero-gradient">Ethical Finite Machines</span><br />
+            for real-time autonomous systems.
+          </h1>
+          <p class="hero-subtitle">
+            We build hardware-accelerated ethics engines that let autonomous agents obey
+            democratically governed norms in microseconds&mdash;not seconds.
+          </p>
+
+          <div class="hero-pills">
+            <span class="pill">DEME-compatible governance</span>
+            <span class="pill">Hardware-accelerated Ethics Modules</span>
+            <span class="pill">Reflex &amp; tactical time bands</span>
+            <span class="pill">Auditability &amp; oversight</span>
+          </div>
+
+          <div class="hero-actions">
+            <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">
+              Get in touch
+              <span class="btn-icon">→</span>
+            </button>
+            <button class="btn-ghost" onclick="document.getElementById('concept').scrollIntoView({behavior: 'smooth'})">
+              Learn how it works
+            </button>
+          </div>
+        </div>
+
+        <!-- HERO ASIDE -->
+        <aside class="hero-aside" aria-label="Ethics engine snapshot">
+          <div class="hero-aside-inner">
+            <div class="chip">
+              <span class="chip-dot"></span>
+              <span>DEME profile: urban_av_v1</span>
+            </div>
+            <h3 class="grid-title">Hardware Ethics Module</h3>
+            <p class="grid-sub">
+              EthicsFrame → veto + normative score in &lt; 50&nbsp;µs, integrated directly into the control loop.
+            </p>
+
+            <div class="ethics-grid">
+              <div class="ethics-cell">
+                <div class="ethics-cell-label">Distance &amp; risk</div>
+                <div class="ethics-cell-value">
+                  distance_band&nbsp;=&nbsp;2<br />
+                  risk_band&nbsp;=&nbsp;high
+                </div>
+              </div>
+              <div class="ethics-cell">
+                <div class="ethics-cell-label">Vulnerable</div>
+                <div class="ethics-cell-value">
+                  child_present&nbsp;=&nbsp;1<br />
+                  elderly_present&nbsp;=&nbsp;0
+                </div>
+              </div>
+              <div class="ethics-cell">
+                <div class="ethics-cell-label">Zone &amp; rights</div>
+                <div class="ethics-cell-value">
+                  protected_zone&nbsp;=&nbsp;school<br />
+                  consent_required&nbsp;=&nbsp;true
+                </div>
+              </div>
+              <div class="ethics-cell">
+                <div class="ethics-cell-label">Result</div>
+                <div class="ethics-cell-value">
+                  veto_flags&nbsp;=&nbsp;collision_vulnerable<br />
+                  normative_score&nbsp;=&nbsp;0.03
+                </div>
+              </div>
+            </div>
+
+            <div class="ethics-meta">
+              <span class="badge-soft">Latency: 21 µs</span>
+              <span>Profile-aligned · auditable</span>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- CONCEPT -->
+      <section id="concept">
+        <div class="section-kicker">Concept</div>
+        <h2 class="section-heading">Ethics you can compile, measure, and enforce.</h2>
+        <p class="section-lead">
+          Ethical Finite Machines starts from a simple premise: if we want autonomous systems to
+          obey democratic norms, ethics can’t live as a slow, opaque afterthought. It needs to be a
+          first-class component of the control loop, with bounded latency and transparent governance.
+        </p>
+
+        <div class="cards">
+          <article class="card">
+            <div class="card-label">01 · Governance</div>
+            <h3 class="card-title">Democratically governed profiles</h3>
+            <p class="card-body">
+              Ethical configurations are expressed as profiles: stakeholder weights, ethical
+              dimensions, principlism layers, and hard vetoes. Profiles can be debated, versioned,
+              and adopted by regulators, communities, or operators.
+            </p>
+            <p class="card-meta">
+              Think of it as a <strong>constitution</strong> for the machine, not a black-box rule set.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-label">02 · Representation</div>
+            <h3 class="card-title">EthicsFrames for hardware</h3>
+            <p class="card-body">
+              Rich EthicalFacts from perception and planning are compiled into compact
+              <strong>EthicsFrames</strong> &mdash; fixed-width encodings of distance, risk, rights,
+              vulnerable presence, and action type that can be evaluated in a handful of cycles.
+            </p>
+            <p class="card-meta">
+              This is how we bring <strong>normative context</strong> onto silicon.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-label">03 · Enforcement</div>
+            <h3 class="card-title">Hardware Ethics Modules (EMs)</h3>
+            <p class="card-body">
+              FPGA/ASIC modules implement profile-aware hard vetoes and normative scoring in
+              microseconds, so reflex and tactical decisions can stay within ethics without slowing
+              the machine down.
+            </p>
+            <p class="card-meta">
+              From “patent pending” to <strong>in-the-loop enforcement</strong>.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- TECHNOLOGY -->
+      <section id="technology">
+        <div class="section-kicker">Technology</div>
+        <h2 class="section-heading">From DEME profiles to silicon.</h2>
+        <p class="section-lead">
+          We’re building the bridge between democratically governed ethical frameworks and the hard
+          constraints of real-world autonomy: compiler toolchains, hardware EM cores, and governance
+          infrastructure for fleet-scale deployment.
+        </p>
+
+        <div class="usecases">
+          <div class="usecase-list">
+            <article class="usecase">
+              <h3 class="usecase-title">Profile-aware compilers</h3>
+              <p class="usecase-body">
+                High-level DEME-style profiles are compiled into hardware artefacts: EthicsFrame
+                mappings, fixed-point weights, veto predicates, and lexicographic priority rules
+                ready for synthesis.
+              </p>
+              <div class="usecase-tags">
+                <span class="usecase-tag">Profile → HDL</span>
+                <span class="usecase-tag">Formal / empirical validation</span>
+                <span class="usecase-tag">Configurable by regulators</span>
+              </div>
+            </article>
+
+            <article class="usecase">
+              <h3 class="usecase-title">Real-time EM cores</h3>
+              <p class="usecase-body">
+                Our Hardware Ethics Modules run alongside perception and planning stacks, evaluating
+                multiple candidate actions per cycle with bounded latency and clear veto semantics.
+              </p>
+              <div class="usecase-tags">
+                <span class="usecase-tag">&lt; 1 ms budget</span>
+                <span class="usecase-tag">Reflex &amp; tactical bands</span>
+                <span class="usecase-tag">FPGA / SoC / ASIC</span>
+              </div>
+            </article>
+
+            <article class="usecase">
+              <h3 class="usecase-title">Governance &amp; audit trails</h3>
+              <p class="usecase-body">
+                Every ethics decision can be traced: which profile, which bitstream, which vetoes
+                fired, and which options were considered. Oversight agents can spot bias, drift, or
+                profile violations at fleet scale.
+              </p>
+              <div class="usecase-tags">
+                <span class="usecase-tag">Proof of decision</span>
+                <span class="usecase-tag">Fleet analytics</span>
+                <span class="usecase-tag">Regulator-facing logs</span>
+              </div>
+            </article>
+          </div>
+
+          <aside class="usecase-panel">
+            <h3 class="usecase-panel-title">What makes an Ethical Finite Machine?</h3>
+            <p class="usecase-panel-body">
+              Not every autonomous system needs a giant language model in the loop. For most
+              safety-critical decisions, we need finite, predictable, and accountable behaviour:
+            </p>
+            <ul class="bullet-list">
+              <li>
+                <span class="bullet-dot"></span>
+                <span>
+                  <strong>Finite state, finite time</strong> &mdash; decisions complete inside a
+                  well-defined latency budget.
+                </span>
+              </li>
+              <li>
+                <span class="bullet-dot"></span>
+                <span>
+                  <strong>Finite representations</strong> &mdash; ethics-relevant context is captured
+                  in bit-level encodings we can inspect, test, and verify.
+                </span>
+              </li>
+              <li>
+                <span class="bullet-dot"></span>
+                <span>
+                  <strong>Finite authority</strong> &mdash; machines are accountable to human
+                  governance processes, not the other way around.
+                </span>
+              </li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <!-- USE CASES -->
+      <section id="use-cases">
+        <div class="section-kicker">Use cases</div>
+        <h2 class="section-heading">Where this matters first.</h2>
+        <p class="section-lead">
+          Anywhere autonomous systems interact with people in physical space, ethical behaviour
+          isn’t optional. Our focus is on domains where decisions need to be both
+          <strong>auditable</strong> and <strong>sub-millisecond</strong>.
+        </p>
+
+        <div class="cards">
+          <article class="card">
+            <div class="card-label">01 · Mobility</div>
+            <h3 class="card-title">Autonomous vehicles</h3>
+            <p class="card-body">
+              Lane changes, braking, path selection around vulnerable road users, and triage between
+              conflicting risks all demand real-time ethics, not offline policies.
+            </p>
+            <p class="card-meta">
+              Embed DEME-compliant Hardware EMs next to your planner for <strong>go/no-go</strong>
+              decisions at highway speeds.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-label">02 · Robotics</div>
+            <h3 class="card-title">Mobile &amp; service robots</h3>
+            <p class="card-body">
+              Robots operating in warehouses, hospitals, and public spaces need predictable
+              responses when near people, critical infrastructure, or restricted zones.
+            </p>
+            <p class="card-meta">
+              Tiered enforcement lets you combine <strong>self-policing agents</strong> with
+              oversight or internal affairs agents.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-label">03 · Oversight</div>
+            <h3 class="card-title">Regulatory sandboxing</h3>
+            <p class="card-body">
+              Regulators and standards bodies can experiment with DEME profiles and Hardware EM
+              implementations before mandating them, using shared test suites and audit tooling.
+            </p>
+            <p class="card-meta">
+              Move from vague principles to <strong>enforceable constraints</strong>.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="contact">
+        <div class="contact-text">
+          <h2 class="contact-title">Interested in Ethical Finite Machines?</h2>
+          <p class="contact-body">
+            We’re exploring collaborations with AV and robotics teams, regulators, and researchers
+            who care about democratically governed, real-time ethics for autonomous systems.
+          </p>
+        </div>
+        <div class="contact-cta">
+          <div class="contact-email">contact@ethicalfinite.com</div>
+          <div>Reach out if you’d like to talk profiles, hardware EMs, or pilots.</div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div>© <span id="year"></span> Ethical Finite Machines, Inc. All rights reserved.</div>
+        <div class="footer-links">
+          <a href="#top">Back to top</a>
+          <a href="mailto:contact@ethicalfinite.com">Email</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
